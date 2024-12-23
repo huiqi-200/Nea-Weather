@@ -39,18 +39,27 @@ def create_dataframe_from_folder(folder_path):
     return df
 
 def get_max_value_per_hr(df):
-    # Group by 'station_id' and hourly 'timestamp', then get the max 'value'
-    result = df.with_columns(
+
+    """
+        Group by 'station_id' and hourly 'timestamp', then get the max 'value'
+
+        Input: df, Polars.dataframe
+            Compiled raw data from json in given folder path parameter
+    """
+    result_df = df.with_columns(
         pl.col("timestamp").dt.hour().alias("hour"),
         pl.col("timestamp").dt.date().alias("date")
-    ).group_by(["station_id", "Date", "hour"]).agg(
+    )
+    result_agg_df = result_df.group_by(["station_id", "date", "hour"]).agg(
         pl.col("value").max().alias("max_value")
     )
-    return result
+
+    result_agg_sort_columns_df = result_agg_df.select("station_id", "max_value", "date", "hour")
+    return result_agg_sort_columns_df
 
 # Example usage
-folder_path = "sample_raw"
+
+folder_path = "raw" # folder with raw json files from get_rainfall_singapore_api.py script run
 df = create_dataframe_from_folder(folder_path)
-print(df)
-agg_df = get_max_value_per_hr(df)
-agg_df.write_csv(file="test.csv", date_format="%Y-%m-%d")
+agg_df = get_max_value_per_hr(df) 
+agg_df.write_csv(file="output.csv", date_format="%Y-%m-%d") # saves a csv called "output.csv" to current directory
