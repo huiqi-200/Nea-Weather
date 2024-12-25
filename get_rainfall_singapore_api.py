@@ -46,9 +46,9 @@ def get_json(date, folder='raw'):
 
     
 # Example usage
-start_date = "2023-01-01" # date to start extracting from
-end_date = "2024-11-30" # date to start extracting till
-folder_to_save_to = "raw" # folder to save json files to
+start_date = "2024-06-01" # date to start extracting from
+end_date = "2024-06-08" # date to start extracting till
+folder_to_save_to = "sample_raw_2" # folder to save json files to
 dates = generate_date_list(start_date, end_date)
 
 for date in dates:

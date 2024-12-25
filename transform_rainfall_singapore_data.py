@@ -59,7 +59,10 @@ def get_max_value_per_hr(df):
 
 # Example usage
 
-folder_path = "raw" # folder with raw json files from get_rainfall_singapore_api.py script run
+# modifiable parameters:
+folder_path = "sample_raw_2" # modify to folder with raw json files from get_rainfall_singapore_api.py script run
+file_name = "output_2"
+
 df = create_dataframe_from_folder(folder_path)
 agg_df = get_max_value_per_hr(df) 
-agg_df.write_csv(file="output.csv", date_format="%Y-%m-%d") # saves a csv called "output.csv" to current directory
+agg_df.write_csv(file=f"{file_name}.csv", date_format="%Y-%m-%d") # saves a csv called "output.csv" to current directory
